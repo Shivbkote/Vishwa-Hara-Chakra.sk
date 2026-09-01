@@ -1,0 +1,228 @@
+
+document.addEventListener("DOMContentLoaded", () => {
+  const nav = document.querySelector(".site-nav");
+  const menu = document.querySelector(".mobile-panel");
+  const menuBtn = document.querySelector(".menu-btn");
+  const top = document.querySelector(".back-top");
+  const glow = document.querySelector(".cursor-glow");
+
+  window.addEventListener("scroll", () => {
+    nav?.classList.toggle("scrolled", window.scrollY > 30);
+    top?.classList.toggle("show", window.scrollY > 650);
+  }, {passive:true});
+
+  menuBtn?.addEventListener("click", () => {
+    menu?.classList.toggle("open");
+    const open = menu?.classList.contains("open");
+    menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    menuBtn.innerHTML = open ? "<i></i><i></i><i></i>" : "<i></i><i></i><i></i>";
+  });
+  menu?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => menu.classList.remove("open")));
+
+  top?.addEventListener("click", () => window.scrollTo({top:0,behavior:"smooth"}));
+
+  const observer = new IntersectionObserver((entries, ob) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("in");
+        ob.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.12, rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll(".reveal,.scale-in").forEach((el,i) => {
+    el.style.setProperty("--delay", Math.min(i % 8, 5));
+    observer.observe(el);
+  });
+
+  document.querySelectorAll("[data-count]").forEach(el => {
+    const target = Number(el.dataset.count || 0);
+    const suffix = el.dataset.suffix || "";
+    const counter = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if(!e.isIntersecting) return;
+        const start = performance.now();
+        const run = now => {
+          const p = Math.min((now-start)/1200,1);
+          const eased = 1-Math.pow(1-p,3);
+          el.textContent = Math.round(target*eased).toLocaleString()+suffix;
+          if(p<1) requestAnimationFrame(run);
+        };
+        requestAnimationFrame(run);
+        counter.disconnect();
+      });
+    },{threshold:.5});
+    counter.observe(el);
+  });
+
+  document.querySelectorAll(".progress span[data-width]").forEach(el => {
+    const io = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting){ el.style.width = el.dataset.width+"%"; io.disconnect(); }
+    });
+    io.observe(el);
+  });
+
+  if (glow && matchMedia("(hover:hover)").matches) {
+    window.addEventListener("pointermove", e => {
+      glow.style.left = e.clientX+"px";
+      glow.style.top = e.clientY+"px";
+    }, {passive:true});
+  }
+
+  document.querySelectorAll("[data-tilt]").forEach(card => {
+    if(!matchMedia("(hover:hover)").matches) return;
+    card.addEventListener("pointermove", e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX-r.left)/r.width-.5;
+      const y = (e.clientY-r.top)/r.height-.5;
+      card.style.transform = `perspective(900px) rotateX(${y*-3}deg) rotateY(${x*3}deg) translateY(-6px)`;
+    });
+    card.addEventListener("pointerleave", () => card.style.transform="");
+  });
+
+  document.querySelectorAll("form[data-demo]").forEach(form => {
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const toast = document.querySelector(".toast");
+      toast?.classList.add("show");
+      setTimeout(()=>toast?.classList.remove("show"),2800);
+      form.reset();
+    });
+  });
+
+  const year = document.querySelector("[data-year]");
+  if(year) year.textContent = new Date().getFullYear();
+});
+
+
+/* =====================================================
+   QUICK IMPACT COUNTERS
+   RESET EVERY 3 SECONDS
+===================================================== */
+
+const quickCounters =
+    document.querySelectorAll(".quick-stats .counter");
+
+if (quickCounters.length) {
+
+    function animateQuickCounter(counter) {
+
+        const target =
+            Number(counter.dataset.target || 0);
+
+        const suffix =
+            counter.dataset.suffix || "";
+
+        const duration = 1200;
+
+        let startTime = null;
+
+        function animate(timestamp) {
+
+            if (!startTime) {
+                startTime = timestamp;
+            }
+
+            const progress =
+                Math.min(
+                    (timestamp - startTime) / duration,
+                    1
+                );
+
+            /* Smooth ease-out */
+            const eased =
+                1 - Math.pow(1 - progress, 3);
+
+            const currentValue =
+                Math.floor(target * eased);
+
+            counter.textContent =
+                currentValue.toLocaleString() + suffix;
+
+            if (progress < 1) {
+
+                requestAnimationFrame(animate);
+
+            } else {
+
+                counter.textContent =
+                    target.toLocaleString() + suffix;
+
+            }
+        }
+
+        /* Reset to zero */
+        counter.textContent = "0" + suffix;
+
+        requestAnimationFrame(animate);
+    }
+
+
+    function resetAllCounters() {
+
+        quickCounters.forEach(counter => {
+
+            animateQuickCounter(counter);
+
+        });
+
+    }
+
+
+    /* First animation */
+    resetAllCounters();
+
+
+    /* Reset and count again every 3 seconds */
+    setInterval(() => {
+
+        resetAllCounters();
+
+    }, 3000);
+
+}
+
+
+
+/* =====================================================
+   TEAM SECTION REVEAL
+===================================================== */
+
+const teamRevealItems =
+    document.querySelectorAll(".reveal-team");
+
+if (teamRevealItems.length) {
+
+    const teamObserver =
+        new IntersectionObserver(
+            (entries, observer) => {
+
+                entries.forEach(entry => {
+
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    entry.target.classList.add(
+                        "team-visible"
+                    );
+
+                    observer.unobserve(
+                        entry.target
+                    );
+
+                });
+
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+
+    teamRevealItems.forEach(item => {
+
+        teamObserver.observe(item);
+
+    });
+
+}
