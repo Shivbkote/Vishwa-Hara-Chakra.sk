@@ -5632,3 +5632,38 @@ select {
     }
 
 }
+
+/* =====================================================
+   EMAILJS SUBMIT BUTTON
+===================================================== */
+
+#vhc-submit {
+    min-width: 190px;
+
+    position: relative;
+
+    transition:
+        transform .3s ease,
+        opacity .3s ease;
+}
+
+#vhc-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+#vhc-submit:disabled {
+    cursor: wait;
+    opacity: .75;
+}
+
+#vhc-submit .button-arrow {
+    display: inline-block;
+
+    margin-left: 8px;
+
+    transition: transform .3s ease;
+}
+
+#vhc-submit:hover .button-arrow {
+    transform: translateX(4px);
+}
