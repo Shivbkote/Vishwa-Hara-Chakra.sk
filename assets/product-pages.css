@@ -2698,3 +2698,151 @@
 }
 
 
+
+
+/* =========================================
+   ZEPHYR MATERIAL IMAGE
+========================================= */
+
+.zh-material-core {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: visible;
+}
+
+.zh-core-glow {
+    position: absolute;
+
+    width: 75%;
+    height: 75%;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(111, 158, 63, 0.38),
+        rgba(111, 158, 63, 0.12) 45%,
+        transparent 72%
+    );
+
+    filter: blur(25px);
+
+    animation: zhGlow 4s ease-in-out infinite;
+
+    z-index: 0;
+}
+
+.zh-core {
+    position: relative;
+
+    width: 72%;
+    height: 72%;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background: #e8f0da;
+
+    border: 1px solid rgba(111, 158, 63, 0.25);
+
+    box-shadow:
+        0 25px 70px rgba(23, 61, 37, 0.18),
+        inset 0 1px 0 rgba(255,255,255,.9);
+
+    transform: rotate(-5deg);
+
+    z-index: 2;
+
+    transition:
+        transform .7s cubic-bezier(.2,.8,.2,1),
+        box-shadow .7s ease;
+}
+
+
+/* IMAGE */
+
+.zh-core-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transform: scale(1.02);
+
+    transition:
+        transform 1s cubic-bezier(.2,.8,.2,1),
+        filter .6s ease;
+}
+
+
+/* HOVER */
+
+.zh-material-card:hover .zh-core {
+    transform: rotate(0deg) scale(1.04);
+
+    box-shadow:
+        0 35px 90px rgba(23, 61, 37, 0.25),
+        inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.zh-material-card:hover .zh-core-image {
+    transform: scale(1.09);
+}
+
+
+/* GLOW */
+
+@keyframes zhGlow {
+
+    0%,
+    100% {
+        transform: scale(.92);
+        opacity: .65;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+
+}
+
+
+/* TABLET */
+
+@media (max-width: 768px) {
+
+    .zh-core {
+        width: 68%;
+        height: 68%;
+
+        border-radius: 24px;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+
+    .zh-core {
+        width: 65%;
+        height: 65%;
+
+        min-width: 130px;
+        min-height: 130px;
+
+        border-radius: 20px;
+    }
+
+}
