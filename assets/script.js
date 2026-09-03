@@ -168,6 +168,10 @@ if (quickCounters.length) {
   }
 
 
+  //funcation allreset 
+
+
+
   /* First animation */
   resetAllCounters();
 
@@ -180,8 +184,6 @@ if (quickCounters.length) {
   }, 3000);
 
 }
-
-
 
 /* =====================================================
    TEAM SECTION REVEAL
@@ -228,11 +230,7 @@ if (teamRevealItems.length) {
 }
 
 
-
 // impact section 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const metrics = document.querySelectorAll(
@@ -359,3 +357,175 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 3000);
 
 });
+
+//email js
+
+
+/* =====================================================
+   VHC CONTACT FORM — EMAILJS
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contactForm =
+        document.getElementById("vhc-contact-form");
+
+    if (!contactForm) return;
+
+
+    /* ---------------------------------------------
+       EMAILJS CONFIGURATION
+    --------------------------------------------- */
+
+    emailjs.init({
+        publicKey: "YOUR_PUBLIC_KEY"
+    });
+
+
+    /* ---------------------------------------------
+       FORM SUBMISSION
+    --------------------------------------------- */
+
+    contactForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+
+        const submitButton =
+            document.getElementById("vhc-submit");
+
+        const buttonText =
+            submitButton.querySelector(".button-text");
+
+        const buttonArrow =
+            submitButton.querySelector(".button-arrow");
+
+
+        /* Prevent multiple submissions */
+
+        submitButton.disabled = true;
+
+
+        buttonText.textContent =
+            "Sending...";
+
+        buttonArrow.textContent =
+            "⟳";
+
+
+        /* -----------------------------------------
+           SEND FORM
+        ----------------------------------------- */
+
+        emailjs.sendForm(
+
+            "YOUR_SERVICE_ID",
+
+            "YOUR_TEMPLATE_ID",
+
+            contactForm
+
+        )
+
+        .then(function () {
+
+            /* SUCCESS */
+
+            buttonText.textContent =
+                "Enquiry sent";
+
+            buttonArrow.textContent =
+                "✓";
+
+
+            /* Reset form */
+
+            contactForm.reset();
+
+
+            /* Show toast */
+
+            const toast =
+                document.querySelector(".toast");
+
+            if (toast) {
+
+                toast.textContent =
+                    "Thank you — your enquiry has been sent successfully.";
+
+                toast.classList.add("show");
+
+                setTimeout(function () {
+
+                    toast.classList.remove("show");
+
+                }, 5000);
+
+            }
+
+
+            /* Restore button */
+
+            setTimeout(function () {
+
+                submitButton.disabled = false;
+
+                buttonText.textContent =
+                    "Send enquiry";
+
+                buttonArrow.textContent =
+                    "→";
+
+            }, 3000);
+
+
+        })
+
+        .catch(function (error) {
+
+            /* ERROR */
+
+            console.error(
+                "EmailJS Error:",
+                error
+            );
+
+
+            buttonText.textContent =
+                "Try again";
+
+            buttonArrow.textContent =
+                "↻";
+
+
+            const toast =
+                document.querySelector(".toast");
+
+            if (toast) {
+
+                toast.textContent =
+                    "Something went wrong. Please try again.";
+
+                toast.classList.add("show");
+
+                setTimeout(function () {
+
+                    toast.classList.remove("show");
+
+                }, 5000);
+
+            }
+
+
+            submitButton.disabled = false;
+
+        });
+
+    });
+
+});
+
+
+
+
+
