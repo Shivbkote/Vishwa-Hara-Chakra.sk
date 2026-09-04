@@ -529,3 +529,130 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
+
+  
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const orbitSystem = document.getElementById("vhcOrbit");
+
+    if (!orbitSystem) return;
+
+
+    /* =====================================================
+       PAUSE ORBITS WHEN HERO IS NOT VISIBLE
+    ===================================================== */
+
+    const rings =
+        orbitSystem.querySelectorAll(".vhc-orbit-ring");
+
+
+    const observer =
+        new IntersectionObserver(
+            function (entries) {
+
+                entries.forEach(function (entry) {
+
+                    if (entry.isIntersecting) {
+
+                        orbitSystem.classList.remove(
+                            "vhc-orbits-paused"
+                        );
+
+                    } else {
+
+                        orbitSystem.classList.add(
+                            "vhc-orbits-paused"
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+
+    observer.observe(orbitSystem);
+
+
+    /* =====================================================
+       MOUSE INTERACTION
+       Subtle movement of whole orbit system
+    ===================================================== */
+
+    const hero =
+        document.getElementById("vhc-hero");
+
+
+    if (window.matchMedia("(pointer:fine)").matches) {
+
+        hero.addEventListener("mousemove", function (event) {
+
+            const rect =
+                hero.getBoundingClientRect();
+
+            const x =
+                (event.clientX - rect.left)
+                / rect.width - .5;
+
+            const y =
+                (event.clientY - rect.top)
+                / rect.height - .5;
+
+
+            orbitSystem.style.transform =
+                `translate(${x * 8}px, ${y * 8}px)`;
+
+        });
+
+
+        hero.addEventListener("mouseleave", function () {
+
+            orbitSystem.style.transform =
+                "translate(0,0)";
+
+        });
+
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
+
+    const reducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+
+    function handleMotion() {
+
+        if (reducedMotion.matches) {
+
+            rings.forEach(function (ring) {
+
+                ring.style.animation =
+                    "none";
+
+            });
+
+        }
+
+    }
+
+
+    handleMotion();
+
+    reducedMotion.addEventListener(
+        "change",
+        handleMotion
+    );
+
+});
