@@ -231,7 +231,7 @@ select {
 
 .brand-text strong {
     display: block;
-    font: 800 14px/1 "Manrope";
+    font: 800 16px/1 "Manrope";
     letter-spacing: .08em;
     text-transform: uppercase
 }
