@@ -9810,3 +9810,118 @@ select {
     }
 
 }
+
+
+
+.vhc-solutions-new {
+    width: 100%;
+    max-width: 90%;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.vhc-solution-new {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vhc-solution-text-new {
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+    .vhc-solutions-new {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .vhc-solutions-new {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+
+
+/* =========================================================
+   VHC ACTION BUTTONS — RESPONSIVE
+========================================================= */
+
+.vhc-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.vhc-btn {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .vhc-actions {
+        width: 92%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+
+        padding-left: 20px;
+        padding-right: 20px;
+        box-sizing: border-box;
+    }
+
+    .vhc-btn {
+        width: 100%;
+        max-width: 100%;
+        min-height: 52px;
+        box-sizing: border-box;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .vhc-actions {
+        padding-left: 16px;
+        padding-right: 16px;
+        gap: 10px;
+    }
+
+    .vhc-btn {
+        width: 100%;
+        min-height: 50px;
+        padding: 13px 16px;
+        font-size: 14px;
+        gap: 8px;
+    }
+
+    .vhc-btn span {
+        font-size: 17px;
+    }
+}
+
